@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const validator = require('validator');
-const nameSchema = require('./shared/nameModel');
+const nameSchema = require('./nameModel');
 
 const userSchema = new mongoose.Schema({
     username:{

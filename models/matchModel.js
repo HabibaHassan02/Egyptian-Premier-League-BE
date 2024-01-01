@@ -57,7 +57,7 @@ const matchSchema = new mongoose.Schema({
   },
 });
 
-matchSchema.index({ name: 1, category: 1 }, { unique: true });
+//matchSchema.index({ name: 1, category: 1 }, { unique: true });
 
 // //All find querries
 matchSchema.pre(/^find/, function (next) {
