@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const Stadium = require('./stadiumModel')
 
 const matchSchema = new mongoose.Schema({
   homeTeam: {
@@ -14,11 +15,10 @@ const matchSchema = new mongoose.Schema({
     maxlength: [40, "An away team name must be at most 40 characters"],
     minlength: [1, "An away team name must be at least 1 character"],
   },
-  matchVenue:{
-    type: String,
-    required: [true, "A match must have a venue."],
-    maxlength: [40, "A venue name must be at most 40 characters"],
-    minlength: [1, "A venue name must be at least 1 character"],
+  matchVenue:{  //stadium ID
+    type: mongoose.Schema.ObjectId,
+    ref: 'Stadium',
+    required: [true, 'The match  must belong to a stadium'],
   },
   dateandtime: {
     type: Date,

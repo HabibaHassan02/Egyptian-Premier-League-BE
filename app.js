@@ -3,6 +3,10 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 
+const managerRouter = require('./routes/managerRoute')
+const globalErrorHandler = require('./controllers/errorController');
+
+
 
 dotenv.config({ path: "./config.env" });
 const app = express();
@@ -23,5 +27,13 @@ app.use("/api/v1", (req, res, next) => {
   console.log("hello from App Middleware");
   next();
 });
+
+app.use('/api/v1/manager', managerRouter);
+
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
+app.use(globalErrorHandler);
 
 module.exports = app;
