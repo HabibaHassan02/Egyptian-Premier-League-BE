@@ -9,7 +9,7 @@ router.route("/matchdetails/:id").get(customerController.viewMatch);
 
 //router.route("/viewvacant/:id").get(customerController.viewVacant);
 
-//router.route("/reserve").post(customerController.reserveVacant);
+router.route("/reserve").post(customerController.reserveTicket);
 
 //router.route("/cancelreservation/:id").delete(customerController.deleteReservation);
 

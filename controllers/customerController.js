@@ -57,18 +57,33 @@ exports.viewMatch = catchAsync(async (req, res, next) => {
     });
 });
 
-/*exports.viewVacant = catchAsync(async (req, res, next) => {
-    const match = await Match.findById(req.params.id);
-    if (!match){
+exports.reserveTicket = catchAsync(async (req, res, next) => {
+    const filteredBody = filterObj(
+        req.body,
+        "password",
+        "name",
+        "gender",
+        "city",
+        "address",
+    );
+    const updatedUser = await User.findById(req.params.id);
+    if (!updatedUser) {
         return res.status(404).json({
-            status: 'fail',
-            message: 'Invalid match id',
-        });
+        status: "fail",
+        message: "No user found with this id ",
+    })};
+    updatedUser.set(filteredBody);
+    updatedUser.name.firstName = req.body.name.firstName;
+    updatedUser.name.lastName = req.body.name.lastName;
+    updatedUser.role = req.body.role;
+    try {
+        await updatedUser.save();
+    } catch (err) {
+        return next(new AppError(err.message, 400));
     }
-    const stadiumID = match.matchVenue
-    const stadium = await Stadium.findById(stadiumID);
     return res.status(200).json({
-        status: 'success',
-        data: stadium.numberOfVacantSeats
+        status: "success",
+        data: updatedUser,
     });
-});*/
+
+});
