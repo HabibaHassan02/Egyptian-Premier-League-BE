@@ -28,7 +28,8 @@ const seedDB = async () => {
             address: '123 Maadi Street',
             email: 'habibahassan@gmail.com',
             role: 'manager',
-            passwordChangedAt: Date.now()
+            passwordChangedAt: Date.now(),
+            isApproved: true,
         },
         {
             username: 'salma1',
@@ -40,7 +41,8 @@ const seedDB = async () => {
             address: '4 Manial Street',
             email: 'salmaahmed@gmail.com',
             role: 'manager',
-            passwordChangedAt: Date.now()
+            passwordChangedAt: Date.now(),
+            isApproved: true,
         },
         {
             username: 'rofayda22',
@@ -52,42 +54,35 @@ const seedDB = async () => {
             address: '24 Dokki Street',
             email: 'rofaydabassem@gmail.com',
             role: 'fan',
-            passwordChangedAt: Date.now()
+            passwordChangedAt: Date.now(),
+            isApproved: false,
         }
     ]);
 
     const stadiums = await Stadium.insertMany([
         {
-            name: { firstName: 'Cairo', lastName: 'Stadium' },
+            name: 'Cairo Stadium',
             location: 'Nasr City,Cairo,Egypt',
             numberOfRows: 50,
             numberOfSeatsperRow: 100,
-            numberOfVacantSeats: 3000,
-            numberOfReservedSeats: 1000
         },
         {
-            name: { firstName: 'Borg', lastName: 'ElArab' },
+            name: 'Borg ElArab',
             location: 'Borg El Arab, Alexandria, Egypt',
             numberOfRows: 50,
             numberOfSeatsperRow: 100,
-            numberOfVacantSeats: 3000,
-            numberOfReservedSeats: 1000
         },
         {
-            name: { firstName: 'Wembly', lastName: 'Stadium' },
+            name: 'Wembly Stadium',
             location: 'London, England',
             numberOfRows: 50,
             numberOfSeatsperRow: 100,
-            numberOfVacantSeats: 3000,
-            numberOfReservedSeats: 1000
         },
         {
-            name: { firstName: 'Camp', lastName: 'Nou' },
+            name: 'Camp Nou',
             location: 'Barcelona, Spain',
             numberOfRows: 50,
             numberOfSeatsperRow: 100,
-            numberOfVacantSeats: 3000,
-            numberOfReservedSeats: 1000
         }
     ]);
     console.log(stadiums[0]._id)
