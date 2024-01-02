@@ -20,7 +20,6 @@ exports.editCustomer = catchAsync(async (req, res, next) => {
         "gender",
         "city",
         "address",
-        "role"
     );
     const updatedUser = await User.findById(req.params.id);
     if (!updatedUser) {
@@ -31,7 +30,7 @@ exports.editCustomer = catchAsync(async (req, res, next) => {
     updatedUser.set(filteredBody);
     updatedUser.name.firstName = req.body.name.firstName;
     updatedUser.name.lastName = req.body.name.lastName;
-    updatedUser.passwordChangedAt=Date.now();
+    updatedUser.role = req.body.role;
     try {
         await updatedUser.save();
     } catch (err) {

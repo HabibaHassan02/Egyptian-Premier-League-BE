@@ -1,4 +1,4 @@
-const catchAsync  = require('../utils/catchAsync');
+const catchAsync = require("../utils/catchAsync");
 const Match = require("../models/matchModel");
 const Stadium = require("../models/stadiumModel");
 
@@ -68,15 +68,19 @@ exports.editMatch = catchAsync(async (req, res, next) => {
 
 exports.createStadium = catchAsync(async (req, res, next) => {
   console.log("reached create Stadium route");
-  const { name, location, numberOfRows, numberOfSeatsperRow, numberOfVacantSeats, numberOfReservedSeats } =
-    req.body;
-  const createdStadium = await Stadium.create({
-    name, 
+  const {
+    name,
     location,
     numberOfRows,
-    numberOfSeatsperRow, 
-    numberOfVacantSeats, 
-    numberOfReservedSeats
+    numberOfSeatsperRow,
+    numberOfVacantSeats,
+    numberOfReservedSeats,
+  } = req.body;
+  const createdStadium = await Stadium.create({
+    name,
+    location,
+    numberOfRows,
+    numberOfSeatsperRow,
   }).catch((err) =>
     //Send error response if any error is encountered
     res.status(400).json({
@@ -95,59 +99,77 @@ exports.createStadium = catchAsync(async (req, res, next) => {
 });
 
 exports.getMatch = catchAsync(async (req, res, next) => {
-  
-    const match = await Match.findOne({ _id: req.params.id });
-    if (!match) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'No such match found with id',
-      });
-    }
-    return res.status(200).json({
-        status: 'success',
-        data: match,
-      });
-  });
-
-  exports.getMatchVacantSeats = catchAsync(async (req, res, next) => {
-  
-    const match = await Match.findOne({
-      _id: req.params.id,
+  const match = await Match.findOne({ _id: req.params.id });
+  if (!match) {
+    return res.status(404).json({
+      status: "fail",
+      message: "No such match found with id",
     });
-    if (!match){
-        return res.status(404).json({
-          status: 'fail',
-          message: 'Invalid match id',
-        });
-      }
-    const stadiumID = match.matchVenue
-    const stadium = await Stadium.findOne({
-        _id: stadiumID,
-      });
-    return res.status(200).json({
-        status: 'success',
-        data: stadium.numberOfVacantSeats
-      });
+  }
+  return res.status(200).json({
+    status: "success",
+    data: match,
   });
+});
 
-
-  exports.getMatchResrevedSeats = catchAsync(async (req, res, next) => {
-  
-    const match = await Match.findOne({
-      _id: req.params.id,
+exports.getMatchVacantSeats = catchAsync(async (req, res, next) => {
+  const match = await Match.findOne({
+    _id: req.params.id,
+  });
+  if (!match) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Invalid match id",
     });
-    if (!match){
-        return res.status(404).json({
-          status: 'fail',
-          message: 'Invalid match id',
-        });
-      }
-    const stadiumID = match.matchVenue
-    const stadium = await Stadium.findOne({
-        _id: stadiumID,
-      });
-    return res.status(200).json({
-        status: 'success',
-        data: stadium.numberOfReservedSeats
-      });
+  }
+  const stadiumID = match.matchVenue;
+  const stadium = await Stadium.findOne({
+    _id: stadiumID,
   });
+
+  const vacantSeatsDetails = [];
+
+    stadium.rows.forEach((row) => {
+      row.seats.forEach((seat) => {
+        if (seat.isVacant) {
+          vacantSeatsDetails.push({
+            rowNumber: row.rowNumber,
+            seatNumber: seat.seatNumber,
+          });
+        }
+      });
+    });
+
+    return res.status(200).json({ status: 'success', vacantSeatsDetails });
+});
+
+exports.getMatchResrevedSeats = catchAsync(async (req, res, next) => {
+  const match = await Match.findOne({
+    _id: req.params.id,
+  });
+  if (!match) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Invalid match id",
+    });
+  }
+  const stadiumID = match.matchVenue;
+  const stadium = await Stadium.findOne({
+    _id: stadiumID,
+  });
+
+  const reservedSeatsDetails = [];
+
+    stadium.rows.forEach((row) => {
+      row.seats.forEach((seat) => {
+        if (!seat.isVacant) {
+          reservedSeatsDetails.push({
+            rowNumber: row.rowNumber,
+            seatNumber: seat.seatNumber,
+          });
+        }
+      });
+    });
+
+    return res.status(200).json({ status: 'success', reservedSeatsDetails });
+});

@@ -69,14 +69,13 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Last Changed at is required'],
         default: Date.now(),
     },
+    isApproved: Boolean,
 });
 
 //All find querries
 userSchema.pre(/^find/, function (next) {
   this.select({
     __v: 0,
-    'location.type': 0,
-    'location._id': 0,
     'name._id': 0,
   });
   next();
