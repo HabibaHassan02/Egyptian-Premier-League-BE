@@ -23,7 +23,9 @@ const stadiumSchema = new mongoose.Schema({
   },
   numberOfVacantSeats:{
     type: Number,
-    default: this.numberOfRows*this.numberOfSeatsperRow
+    default: function() {
+      return this.numberOfRows * this.numberOfSeatsperRow;
+    }
   },
   numberOfReservedSeats:{
     type: Number,

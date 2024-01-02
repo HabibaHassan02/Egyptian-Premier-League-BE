@@ -19,5 +19,4 @@ const nameSchema = new mongoose.Schema({
     validate: [validator.isAlpha, 'Names can only have characters in them.'],
   },
 });
-
 module.exports = nameSchema;
