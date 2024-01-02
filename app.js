@@ -7,6 +7,7 @@ const managerRouter = require('./routes/managerRoute');
 const customerRouter= require('./routes/customerRoute');
 const guestRouter=require('./routes/guestRoute');
 const adminRouter = require('./routes/adminRoute');
+const mainPageController = require('./controllers/mainPageController');
 const globalErrorHandler = require('./controllers/errorController');
 
 
@@ -26,10 +27,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use("/api/v1", (req, res, next) => {
-  console.log("hello from App Middleware");
-  next();
-});
+app.use("/api/v1", mainPageController.getMatches);
 
 app.use('/api/v1/manager', managerRouter);
 app.use('/api/v1/customer',customerRouter);

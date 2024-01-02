@@ -28,7 +28,7 @@ exports.deleteUnapprovedUserById = catchAsync(async (req, res, next) => {
   //     message: "User deleted successfully",
   //     data: deletedUser,
   //   });
-  const { userId } = req.params.id;
+  const  userId  = req.params.id;
   const userToDelete = await User.findOne({ _id: userId, isApproved: false });
 
   if (!userToDelete) {
