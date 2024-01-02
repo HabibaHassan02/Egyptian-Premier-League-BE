@@ -22,8 +22,6 @@ exports.editCustomer = catchAsync(async (req, res, next) => {
         "address",
         "role"
     );
-    const useridss= await User.find()
-    console.log(useridss)
     const updatedUser = await User.findById(req.params.id);
     if (!updatedUser) {
         return res.status(404).json({
@@ -45,3 +43,33 @@ exports.editCustomer = catchAsync(async (req, res, next) => {
     });
 
 });
+
+exports.viewMatch = catchAsync(async (req, res, next) => {
+    const match = await Match.findById(req.params.id);
+    if (!match) {
+        return res.status(404).json({
+        status: 'fail',
+        message: 'No such match found with id',
+    });
+    }
+    return res.status(200).json({
+        status: 'success',
+        data: match,
+    });
+});
+
+/*exports.viewVacant = catchAsync(async (req, res, next) => {
+    const match = await Match.findById(req.params.id);
+    if (!match){
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid match id',
+        });
+    }
+    const stadiumID = match.matchVenue
+    const stadium = await Stadium.findById(stadiumID);
+    return res.status(200).json({
+        status: 'success',
+        data: stadium.numberOfVacantSeats
+    });
+});*/

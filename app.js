@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const AppError=require('./utils/appError')
 const managerRouter = require('./routes/managerRoute')
 const customerRouter= require('./routes/customerRoute')
+const guestRouter=require('./routes/guestRoute')
 const globalErrorHandler = require('./controllers/errorController');
 
 
@@ -30,7 +31,8 @@ app.use("/api/v1", (req, res, next) => {
 });
 
 app.use('/api/v1/manager', managerRouter);
-app.use('/api/v1/customer',customerRouter);
+app.use(customerRouter);
+app.use(guestRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

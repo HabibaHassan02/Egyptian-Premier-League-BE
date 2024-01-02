@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.route("/editcustomer/:id").patch(customerController.editCustomer);
 
-//router.route("/matchdetails/:id").get(customerController.viewMatch);
+router.route("/matchdetails/:id").get(customerController.viewMatch);
 
 //router.route("/viewvacant/:id").get(customerController.viewVacant);
 
