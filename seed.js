@@ -21,7 +21,7 @@ const seedDB = async () => {
   const users = await User.insertMany([
     {
       username: "Habiba1",
-      password: bcrypt.hashSync("1232001", 12),
+      password: bcrypt.hashSync("12320011", 12),
       name: { firstName: "Habiba", lastName: "Hassan" },
       birthdate: new Date("2001-03-12"),
       gender: "Female",
@@ -47,7 +47,7 @@ const seedDB = async () => {
     // },
     {
       username: "salma1",
-      password: bcrypt.hashSync("1572001", 12),
+      password: bcrypt.hashSync("1572001888", 12),
       name: { firstName: "Salma", lastName: "Ahmed" },
       birthdate: new Date("2001-07-15"),
       gender: "Female",
@@ -60,7 +60,7 @@ const seedDB = async () => {
     },
     {
       username: "rofayda22",
-      password: bcrypt.hashSync("442001", 12),
+      password: bcrypt.hashSync("4420014", 12),
       name: { firstName: "Rofayda", lastName: "Bassem" },
       birthdate: new Date("2001-04-4"),
       gender: "Female",
