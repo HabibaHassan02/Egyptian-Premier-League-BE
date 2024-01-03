@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Please provide a password'],
-        minlength: [8, 'Minimum length for password is 8'],
+        // minlength: [8, 'Minimum length for password is 8'],
         select: false, //prevents passwords from being selected while querrying users
     },
     name: nameSchema,
@@ -52,7 +52,6 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'Please provide your email'],
-        lowercase: true,
         validate: [validator.isEmail, 'Please provide a valid email'],
     },
     role:{
