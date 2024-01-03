@@ -11,6 +11,8 @@ router.route("/matchdetails/:id").get(customerController.viewMatch);
 
 router.route("/reserve").post(customerController.reserveTicket);
 
+router.route("/reserve").get(customerController.getReservations);
+
 //router.route("/cancelreservation/:id").delete(customerController.deleteReservation);
 
 //router.route("/editvacant/:id").patch(customerController.editVacant);
