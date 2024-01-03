@@ -53,7 +53,7 @@ stadiumSchema.pre(/^find/, function (next) {
 stadiumSchema.pre("save", function (next) {
   if (
     !this.isModified("numberOfRows") &&
-    !this.isModified("numberOfSeatsPerRow")
+    !this.isModified("numberOfSeatsperRow")
   ) {
     return next();
   }

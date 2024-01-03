@@ -27,7 +27,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use("/api/v1", mainPageController.getMatches);
+app.use("/api/v1/mainpage", mainPageController.getMatches);
 
 app.use('/api/v1/manager', managerRouter);
 app.use('/api/v1/customer',customerRouter);

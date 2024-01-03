@@ -73,8 +73,6 @@ exports.createStadium = catchAsync(async (req, res, next) => {
     location,
     numberOfRows,
     numberOfSeatsperRow,
-    numberOfVacantSeats,
-    numberOfReservedSeats,
   } = req.body;
   const createdStadium = await Stadium.create({
     name,
@@ -89,7 +87,6 @@ exports.createStadium = catchAsync(async (req, res, next) => {
     })
   );
   //if an error happned while creating the stadium
-  if (res.headersSent) return;
   return res.status(200).json({
     status: "success",
     data: {
@@ -122,7 +119,7 @@ exports.getMatchVacantSeats = catchAsync(async (req, res, next) => {
       message: "Invalid match id",
     });
   }
-  const stadiumID = match.matchVenue;
+  const stadiumID = match.matchVenue._id;
   const stadium = await Stadium.findOne({
     _id: stadiumID,
   });
