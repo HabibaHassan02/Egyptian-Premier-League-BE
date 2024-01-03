@@ -7,12 +7,9 @@ router.route("/editcustomer/:id").patch(customerController.editCustomer);
 
 router.route("/matchdetails/:id").get(customerController.viewMatch);
 
-//router.route("/viewvacant/:id").get(customerController.viewVacant);
 
 router.route("/reserve").post(customerController.reserveTicket);
 
-//router.route("/cancelreservation/:id").delete(customerController.deleteReservation);
-
-//router.route("/editvacant/:id").patch(customerController.editVacant);
+router.route("/cancelreservation/:id").delete(customerController.deleteReservation);
 
 module.exports = router;
