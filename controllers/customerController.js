@@ -176,3 +176,57 @@ exports.getReservations = catchAsync(async (req, res, next) => {
 
   return res.status(200).json({ status: "success", data: reservations });
 });
+
+exports.deleteReservation = catchAsync(async (req, res, next) => {
+    let ticketID = req.params.id;
+    let threeDays = 1000 * 3600 * 24 * 3;
+    let ticket = await Ticket.findById(ticketID);
+    if (!ticket) {
+        return res.status(404).json({
+            status: "fail",
+            message: "No ticket found with this id",
+        });
+    }
+    let match = await Match.findById(ticket.match);
+    if (!match) {
+        return res.status(404).json({
+            status: "fail",
+            message: "No match found with this id",
+        });
+    }
+    let matchDate = match.dateandtime;
+    let currentDate = new Date();
+    if (matchDate - currentDate < threeDays) {
+        return res.status(400).json({
+            success: 'false',
+            error: 'Cannot cancel reservation less than 3 days before the match'
+        });
+    }
+    let stadium = await Stadium.findById(match.matchVenue);
+    if (!stadium) {
+        return res.status(404).json({
+            status: "fail",
+            message: "No stadium found with this id",
+        });
+    }
+    for (const seat of ticket.seatnumber) {
+        let row = await stadium.rows.find(row => row.rowNumber === seat.row);
+        if (!row) {
+            console.log(`No row found with number ${seat.row}`);
+            continue;
+        }
+        for (const seatNumber of seat.seats) {
+            let stadiumSeat = await row.seats.find(seat => seat.seatNumber === seatNumber);
+            if (!stadiumSeat) {
+                console.log(`No seat found with number ${seatNumber} in row ${seat.row}`);
+                continue;
+            }
+            stadiumSeat.isVacant = true;
+        }
+    }
+    await stadium.save();
+    await Ticket.findByIdAndDelete(ticketID);
+    res.status(200).json({
+        success: 'true'
+    });
+});
