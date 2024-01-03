@@ -10,7 +10,7 @@ router.route("/matchdetails/:id").get(customerController.viewMatch);
 
 router.route("/reserve").post(customerController.reserveTicket);
 
-router.route("/reserve").get(customerController.getReservations);
+router.route("/reserve/:id").get(customerController.getReservations);
 
 router.route("/cancelreservation/:id").delete(customerController.deleteReservation);
 

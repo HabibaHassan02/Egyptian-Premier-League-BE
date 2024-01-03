@@ -161,7 +161,7 @@ exports.reserveTicket = catchAsync(async (req, res, next) => {
 });
 
 exports.getReservations = catchAsync(async (req, res, next) => {
-  const userId = req.body.buyer;
+  const userId = req.params.id;
 
   const reservations = await Ticket.find({ buyer: userId });
 
