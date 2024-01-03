@@ -95,6 +95,7 @@ exports.reserveTicket = catchAsync(async (req, res, next) => {
         console.log('No stadium found with that ID');
         return;
     }
+    // let numberOfTicketswanted=0;
     let toBeReserved={}
     for (const rowNumber of Object.keys(seats)) {
         let row = stadium.rows.find(row => row.rowNumber === Number(rowNumber));
@@ -112,8 +113,12 @@ exports.reserveTicket = catchAsync(async (req, res, next) => {
                 continue;
             }
             if (!seat.isVacant) {
-                console.log(`Seat ${seatNumber} in row ${rowNumber} is already reserved`);
-                continue;
+                return res.status(400).json({
+                    success: 'false',
+                    error: `Seat ${seatNumber} in row ${rowNumber} is already reserved`
+                });
+                // console.log(`Seat ${seatNumber} in row ${rowNumber} is already reserved`);
+                // continue;
             }
             seat.isVacant = false;
             let stadiumSeat = stadium.rows.find(row => row.rowNumber === Number(rowNumber)).seats.find(seat => seat.seatNumber === seatNumber);
