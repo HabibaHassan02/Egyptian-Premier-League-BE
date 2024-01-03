@@ -9,6 +9,7 @@ router.route("/signin").post(guestController.signin);
 
 router.route("/checkusername").post(guestController.checkUsername);
 
+// router.use(guestController.protect);
 
 module.exports = router;
 

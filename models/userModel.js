@@ -67,7 +67,12 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Last Changed at is required'],
         default: Date.now(),
     },
-    isApproved: Boolean,
+    isApproved: {
+      type:Boolean,
+      default: false,
+    },
+    token: String,
+    tokenExpiry: Date,
 });
 
 //All find querries
