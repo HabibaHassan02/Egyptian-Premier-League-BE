@@ -184,3 +184,9 @@ exports.getStadiumDimensionOfMatch = catchAsync(async (req, res, next) => {
     .status(200)
     .json({ status: "success", data: { numRows: rows, seatsPerRow: seats } });
 });
+
+exports.getStadiums = catchAsync(async (req, res, next) => {
+  const stadiums = await Stadium.find({},'name');
+
+  return res.status(200).json({ status: "success", data: stadiums });
+});

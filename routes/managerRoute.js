@@ -17,4 +17,6 @@ router.route("/match/:id").patch(managerController.editMatch);
 
 router.route("/dimensions/:id").get(managerController.getStadiumDimensionOfMatch);
 
+router.route("/stadium").get(managerController.getStadiums);
+
 module.exports = router;
