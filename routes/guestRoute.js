@@ -7,6 +7,9 @@ router.route("/register").post(guestController.registerUser);
 
 router.route("/signin").post(guestController.signin);
 
+router.route("/checkusername").post(guestController.checkUsername);
+
+
 module.exports = router;
 
 

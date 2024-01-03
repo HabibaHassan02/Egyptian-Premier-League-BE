@@ -60,22 +60,43 @@ exports.viewMatch = catchAsync(async (req, res, next) => {
 exports.reserveTicket = catchAsync(async (req, res, next) => {
     const filteredBody = filterObj(
         req.body,
-        "password",
-        "name",
-        "gender",
-        "city",
-        "address",
+        "matchID",
+        "rowNumber",
+        "seatNumber",
+        "userID"
     );
-    const updatedUser = await User.findById(req.params.id);
-    if (!updatedUser) {
+    const indicator=false;
+    const twoHours=1000 * 3600 * 2;
+    const match = await Match.findById(req.body.matchID);
+    if (!match) {
         return res.status(404).json({
         status: "fail",
-        message: "No user found with this id ",
+        message: "No match found with this id ",
     })};
+    const matchDate=Date.parse(match.dateandtime);
+    const userTickets = await Ticket.find({'buyer': req.body.userID}).select('match');
+    for (const element of userTickets)
+    {
+        const reservedMatch = await Match.findById(element.match);
+        if(reservedMatch._id==match._id) continue;
+        const reservedDate=Date.parse(reservedMatch.dateandtime);
+        if(Math.abs(reservedDate-matchDate) < twoHours)
+        {
+            indicator=true;
+            break;
+        }
+    }
+    if(indicator)
+    {
+        return res.status(400).json({
+            success: 'false',
+            error: 'This reservation clashes with previous reservation'
+        });
+    }
+    
+
     updatedUser.set(filteredBody);
-    updatedUser.name.firstName = req.body.name.firstName;
-    updatedUser.name.lastName = req.body.name.lastName;
-    updatedUser.role = req.body.role;
+    
     try {
         await updatedUser.save();
     } catch (err) {

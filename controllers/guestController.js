@@ -25,6 +25,27 @@ exports.registerUser = catchAsync(async (req, res, next) => {
     });
 });
 
+exports.checkUsername = catchAsync(async (req, res, next) => {
+    try {
+        const user = await User.findOne({ username: req.body.username });
+        if (user) {
+        res.status(200).json({
+            status: 'fail',
+            message: 'Username already exists'
+        });
+        } else {
+            res.status(200).json({
+            status: 'success',
+            message: 'Username is available'
+        });
+        }
+    } catch (err) {
+        res.status(400).json({
+            status: 'error',
+            message: err.message
+        });
+    }
+});
 
 exports.signin = catchAsync(async (req, res, next) => {
     const user = await User.findOne({ username: req.body.username }).select('+password');
