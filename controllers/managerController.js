@@ -24,9 +24,7 @@ exports.createMatch = catchAsync(async (req, res, next) => {
   if (res.headersSent) return;
   return res.status(200).json({
     status: "success",
-    data: {
-      event: createdMatch,
-    },
+    data: createdMatch,
   });
 });
 
