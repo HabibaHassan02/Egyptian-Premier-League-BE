@@ -19,9 +19,7 @@ exports.registerUser = catchAsync(async (req, res, next) => {
     if (res.headersSent) return;
     return res.status(200).json({
         status: "success",
-        data: {
-        event: createdUser,
-    },
+        data:  createdUser,
     });
 });
 
@@ -65,8 +63,6 @@ exports.signin = catchAsync(async (req, res, next) => {
     }
     res.status(200).json({
         status: 'success',
-        data: {
-            user: user
-        }
+        data:  user
     }); 
 });

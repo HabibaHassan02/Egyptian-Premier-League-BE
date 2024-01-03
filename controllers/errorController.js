@@ -1,4 +1,4 @@
-const AppError = require('../utils/AppError');
+const AppError = require('../utils/appError');
 
 /**
  * The Controller responsible for handling errors throughout the application both in development and production

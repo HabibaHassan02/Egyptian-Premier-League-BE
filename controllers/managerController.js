@@ -66,12 +66,7 @@ exports.editMatch = catchAsync(async (req, res, next) => {
 
 exports.createStadium = catchAsync(async (req, res, next) => {
   console.log("reached create Stadium route");
-  const {
-    name,
-    location,
-    numberOfRows,
-    numberOfSeatsperRow,
-  } = req.body;
+  const { name, location, numberOfRows, numberOfSeatsperRow } = req.body;
   const createdStadium = await Stadium.create({
     name,
     location,
@@ -87,9 +82,7 @@ exports.createStadium = catchAsync(async (req, res, next) => {
   //if an error happned while creating the stadium
   return res.status(200).json({
     status: "success",
-    data: {
-      event: createdStadium,
-    },
+    data: createdStadium,
   });
 });
 
@@ -124,18 +117,18 @@ exports.getMatchVacantSeats = catchAsync(async (req, res, next) => {
 
   const vacantSeatsDetails = [];
 
-    stadium.rows.forEach((row) => {
-      row.seats.forEach((seat) => {
-        if (seat.isVacant) {
-          vacantSeatsDetails.push({
-            rowNumber: row.rowNumber,
-            seatNumber: seat.seatNumber,
-          });
-        }
-      });
+  stadium.rows.forEach((row) => {
+    row.seats.forEach((seat) => {
+      if (seat.isVacant) {
+        vacantSeatsDetails.push({
+          rowNumber: row.rowNumber,
+          seatNumber: seat.seatNumber,
+        });
+      }
     });
+  });
 
-    return res.status(200).json({ status: 'success', vacantSeatsDetails });
+  return res.status(200).json({ status: "success", data: vacantSeatsDetails });
 });
 
 exports.getMatchResrevedSeats = catchAsync(async (req, res, next) => {
@@ -155,16 +148,39 @@ exports.getMatchResrevedSeats = catchAsync(async (req, res, next) => {
 
   const reservedSeatsDetails = [];
 
-    stadium.rows.forEach((row) => {
-      row.seats.forEach((seat) => {
-        if (!seat.isVacant) {
-          reservedSeatsDetails.push({
-            rowNumber: row.rowNumber,
-            seatNumber: seat.seatNumber,
-          });
-        }
-      });
+  stadium.rows.forEach((row) => {
+    row.seats.forEach((seat) => {
+      if (!seat.isVacant) {
+        reservedSeatsDetails.push({
+          rowNumber: row.rowNumber,
+          seatNumber: seat.seatNumber,
+        });
+      }
     });
+  });
 
-    return res.status(200).json({ status: 'success', reservedSeatsDetails });
+  return res
+    .status(200)
+    .json({ status: "success", data: reservedSeatsDetails });
+});
+
+exports.getStadiumDimensionOfMatch = catchAsync(async (req, res, next) => {
+  const match = await Match.findOne({
+    _id: req.params.id,
+  });
+  if (!match) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Invalid match id",
+    });
+  }
+  const stadiumID = match.matchVenue;
+  const stadium = await Stadium.findOne({
+    _id: stadiumID,
+  });
+  const rows = stadium.numberOfRows;
+  const seats = stadium.numberOfSeatsperRow;
+  return res
+    .status(200)
+    .json({ status: "success", data: { numRows: rows, seatsPerRow: seats } });
 });
