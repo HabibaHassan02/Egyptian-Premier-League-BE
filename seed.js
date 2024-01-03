@@ -64,25 +64,25 @@ const seedDB = async () => {
             name: 'Cairo Stadium',
             location: 'Nasr City,Cairo,Egypt',
             numberOfRows: 50,
-            numberOfSeatsperRow: 100,
+            numberOfSeatsperRow: 10,
         },
         {
             name: 'Borg ElArab',
             location: 'Borg El Arab, Alexandria, Egypt',
             numberOfRows: 50,
-            numberOfSeatsperRow: 100,
+            numberOfSeatsperRow: 10,
         },
         {
             name: 'Wembly Stadium',
             location: 'London, England',
             numberOfRows: 50,
-            numberOfSeatsperRow: 100,
+            numberOfSeatsperRow: 10,
         },
         {
             name: 'Camp Nou',
             location: 'Barcelona, Spain',
             numberOfRows: 50,
-            numberOfSeatsperRow: 100,
+            numberOfSeatsperRow: 10,
         }
     ]);
     console.log(stadiums[0]._id)

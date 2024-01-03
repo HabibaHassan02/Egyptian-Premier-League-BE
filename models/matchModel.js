@@ -15,7 +15,7 @@ const matchSchema = new mongoose.Schema({
     maxlength: [40, "An away team name must be at most 40 characters"],
     minlength: [1, "An away team name must be at least 1 character"],
   },
-  matchVenue:{  //stadium ID
+  matchVenue: {  //stadium ID
     type: mongoose.Schema.ObjectId,
     ref: 'Stadium',
     required: [true, 'The match  must belong to a stadium'],
