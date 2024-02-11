@@ -71,6 +71,18 @@ const seedDB = async () => {
       passwordChangedAt: Date.now(),
       isApproved: false,
     },
+    {
+        username: "admin123",
+        password: bcrypt.hashSync("4420014", 12),
+        name: { firstName: "Omar", lastName: "Sherif" },
+        birthdate: new Date("2001-04-5"),
+        gender: "Male",
+        city: "Giza",
+        address: "24 Dokki Street",
+        email: "omarsherif@gmail.com",
+        role: "admin",
+        passwordChangedAt: Date.now(),
+      },
   ]);
 
   const stadium1 = await Stadium.create({
